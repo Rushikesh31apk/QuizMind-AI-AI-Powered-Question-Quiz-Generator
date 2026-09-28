@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Create Account{% endblock %}
+{% block body_class %}landing{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">{% endblock %}
+
+{% block body %}
+{% include "includes/navbar.html" %}
+
+<section class="section" style="display:flex; align-items:center;">
+  <div class="container" style="max-width:520px">
+    <div class="qm-card qm-card-glass p-4 p-md-5 fade-in-up">
+      <div class="text-center mb-4">
+        <span class="spark d-inline-flex align-items-center justify-content-center mb-3" style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--qm-primary),var(--qm-primary-dark));color:#fff;font-size:1.4rem;">
+          <i class="bi bi-stars"></i>
+        </span>
+        <h3>Create your student account</h3>
+        <p class="mb-0">Start practicing with AI-powered quizzes today.</p>
+      </div>
+
+      <form method="POST" action="{{ url_for('auth.register') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="mb-3">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-control" name="full_name" value="{{ form.full_name or '' }}" required placeholder="Your full name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email address</label>
+          <input type="email" class="form-control" name="email" value="{{ form.email or '' }}" required placeholder="you@example.com">
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" required placeholder="Min. 6 characters">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" name="confirm_password" required placeholder="Re-enter password">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Academic Year</label>
+          <select class="form-select" name="academic_year_id">
+            <option value="">Select your academic year (optional)</option>
+            {% for year in years %}
+              <option value="{{ year.id }}">{{ year.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="form-label">College Name <span class="text-soft fw-normal">(optional)</span></label>
+          <input type="text" class="form-control" name="college_name" value="{{ form.college_name or '' }}" placeholder="Your college name">
+        </div>
+        <button type="submit" class="btn btn-qm-primary w-100">Create Account</button>
+      </form>
+
+      <p class="text-center mt-4 mb-0 small">Already have an account? <a href="{{ url_for('auth.login') }}" class="fw-semibold text-primary-qm">Login</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "student/_layout.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<h3 class="mb-4">Settings</h3>
+<div class="qm-panel mb-3">
+  <h5 class="qm-panel-title">Account</h5>
+  <p class="small">Update your name, academic year, college and password from your profile.</p>
+  <a href="{{ url_for('auth.profile') }}" class="btn btn-qm-outline">Edit Profile</a>
+</div>
+<div class="qm-panel">
+  <h5 class="qm-panel-title">Quiz Defaults</h5>
+  <p class="small mb-0">Choose difficulty, number of questions and time limit each time you start a quiz from <a href="{{ url_for('quiz.start') }}" class="text-primary-qm fw-semibold">Take Quiz</a>.</p>
+</div>
+{% endblock %}

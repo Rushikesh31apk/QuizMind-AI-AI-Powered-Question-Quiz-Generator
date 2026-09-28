@@ -1,0 +1,56 @@
+{% extends "student/_layout.html" %}
+{% block title %}Question Bank{% endblock %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <div><h3 class="mb-1">Question Bank</h3><p class="mb-0">Your bookmarked questions. Filter and practice them anytime.</p></div>
+  {% if bookmarks %}<a href="{{ url_for('quiz.practice_saved') }}" class="btn btn-qm-primary"><i class="bi bi-play-fill"></i> Practice Saved Questions</a>{% endif %}
+</div>
+
+<div class="qm-panel mb-3">
+  <div class="row g-2">
+    <div class="col-md-4"><select id="fSubject" class="form-select"><option value="">All subjects</option>{% for s in subjects %}<option value="{{ s.name }}">{{ s.name }}</option>{% endfor %}</select></div>
+    <div class="col-md-4"><input id="fChapter" class="form-control" placeholder="Filter by chapter"></div>
+    <div class="col-md-4"><select id="fDiff" class="form-select"><option value="">All difficulties</option><option>Easy</option><option>Medium</option><option>Hard</option></select></div>
+  </div>
+</div>
+
+{% if bookmarks %}
+<div id="bmList">
+  {% for b in bookmarks %}
+  {% set q = b.question %}
+  <div class="qm-card p-3 mb-3 bm-item" data-subject="{{ q.subject.name }}" data-chapter="{{ q.chapter.name|lower }}" data-diff="{{ q.difficulty }}">
+    <div class="d-flex justify-content-between gap-2">
+      <div class="fw-bold">{{ q.question_text }}</div>
+      <button class="btn btn-qm-ghost btn-sm-pill bm-remove" data-qid="{{ q.id }}" title="Remove bookmark"><i class="bi bi-bookmark-fill text-primary-qm"></i></button>
+    </div>
+    <div class="small text-soft mb-2">{{ q.subject.name }} · {{ q.chapter.name }} · <span class="qm-badge qm-badge-{{ q.difficulty|lower }}">{{ q.difficulty }}</span></div>
+    <ul class="small mb-2">{% for o in q.options %}<li class="{{ 'text-primary-qm fw-bold' if o.option_label == q.correct_answer }}">{{ o.option_label }}. {{ o.option_text }}</li>{% endfor %}</ul>
+    {% if q.explanation %}<div class="small text-soft"><i class="bi bi-lightbulb"></i> {{ q.explanation }}</div>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="qm-panel qm-empty-state"><div class="icon-wrap"><i class="bi bi-bookmark"></i></div><h5>No saved questions</h5><p>Bookmark questions during a quiz or from your results to build your personal bank.</p><a href="{{ url_for('quiz.start') }}" class="btn btn-qm-primary">Take a Quiz</a></div>
+{% endif %}
+{% endblock %}
+
+{% block dash_extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const fS = document.getElementById('fSubject'), fC = document.getElementById('fChapter'), fD = document.getElementById('fDiff');
+  function filter() {
+    document.querySelectorAll('.bm-item').forEach(el => {
+      const ok = (!fS.value || el.dataset.subject === fS.value) &&
+                 (!fC.value || el.dataset.chapter.includes(fC.value.toLowerCase())) &&
+                 (!fD.value || el.dataset.diff === fD.value);
+      el.style.display = ok ? '' : 'none';
+    });
+  }
+  [fS, fC, fD].forEach(e => e.addEventListener('input', filter));
+  document.querySelectorAll('.bm-remove').forEach(btn => btn.addEventListener('click', async () => {
+    const res = await qmFetch('/bookmarks/toggle', {method:'POST', body: JSON.stringify({question_id: btn.dataset.qid})});
+    if (res.data) { showToast(res.data.message, 'info'); btn.closest('.bm-item').remove(); }
+  }));
+});
+</script>
+{% endblock %}

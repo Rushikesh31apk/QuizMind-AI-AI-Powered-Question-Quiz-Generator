@@ -1,0 +1,387 @@
+{% extends "base.html" %}
+{% block title %}AI-Powered Question & Quiz Generator{% endblock %}
+{% block body_class %}landing{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+{% endblock %}
+
+{% block body %}
+{% include "includes/navbar.html" %}
+
+<!-- ============ HERO ============ -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 fade-in-up">
+        <span class="section-eyebrow"><i class="bi bi-stars"></i> AI-Powered Exam Preparation</span>
+        <h1 class="hero-heading">Your syllabus.<br>Your questions.<br>Your <span class="gradient-text">AI-powered</span> preparation.</h1>
+        <p class="hero-sub mt-3">Master your B.Sc. Computer Science syllabus with AI-generated questions, chapter-wise quizzes, instant evaluation and personalized performance insights.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="{{ url_for('auth.register') }}" class="btn btn-qm-primary btn-lg">Start Practicing</a>
+          <a href="#features" class="btn btn-qm-outline btn-lg">Explore Features</a>
+        </div>
+        <div class="feature-pill-row">
+          <span class="feature-pill"><i class="bi bi-cpu"></i> AI Question Generator</span>
+          <span class="feature-pill"><i class="bi bi-journal-text"></i> Chapter-wise Practice</span>
+          <span class="feature-pill"><i class="bi bi-lightning-charge"></i> Instant Evaluation</span>
+          <span class="feature-pill"><i class="bi bi-graph-up-arrow"></i> Performance Analytics</span>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="hero-mockup fade-in-up">
+          <div class="mockup-browser">
+            <div class="mockup-browser-bar">
+              <span class="mockup-dot" style="background:#F5A524"></span>
+              <span class="mockup-dot" style="background:#16C784"></span>
+              <span class="mockup-dot" style="background:#E4453A"></span>
+              <span class="ms-2 small text-soft">quizmind.ai/quiz</span>
+            </div>
+            <div class="mockup-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="mockup-badge-ai"><i class="bi bi-stars"></i> AI Quiz</span>
+                <span class="small text-soft fw-semibold">Question 4/10</span>
+              </div>
+              <div class="mockup-progress-bar mb-3"><div class="mockup-progress-fill" style="width:70%"></div></div>
+              <div class="small text-soft fw-semibold mb-1">Data Structures &middot; Trees</div>
+              <div class="mockup-question-card">
+                <div class="fw-bold small mb-2">Which traversal visits the root node between the left and right subtrees?</div>
+                <div class="mockup-option"><span>A</span> Pre-order</div>
+                <div class="mockup-option correct"><span>B</span> In-order</div>
+                <div class="mockup-option"><span>C</span> Post-order</div>
+              </div>
+            </div>
+          </div>
+          <div class="floating-score-card">
+            <div class="avatar-circle"><i class="bi bi-trophy-fill"></i></div>
+            <div>
+              <div class="fw-bold" style="font-size:1.1rem">86%</div>
+              <div class="small text-soft">Latest Score</div>
+            </div>
+          </div>
+          <div class="floating-chip"><i class="bi bi-stars text-primary-qm"></i> AI Generated</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUSTED / CURRICULUM STRIP ============ -->
+<section class="section pt-0">
+  <div class="container">
+    <p class="text-center text-soft fw-semibold mb-4">Built around the SPPU B.Sc. Computer Science curriculum</p>
+    <div class="trust-strip">
+      <span><i class="bi bi-mortarboard"></i> First Year</span>
+      <span><i class="bi bi-mortarboard"></i> Second Year</span>
+      <span><i class="bi bi-mortarboard"></i> Third Year</span>
+      <span><i class="bi bi-diagram-3"></i> 6 Semesters</span>
+      <span><i class="bi bi-journal-code"></i> All Core Subjects</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="section" id="features">
+  <div class="container text-center">
+    <span class="section-eyebrow">Features</span>
+    <h2 class="section-title">Everything you need to prepare smarter</h2>
+    <p class="section-desc">A complete toolkit that turns your syllabus into a personalized practice engine.</p>
+
+    <div class="row g-4 mt-3 text-start">
+      <div class="col-md-6 col-lg-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-stars"></i></div>
+          <h5>AI Question Generator</h5>
+          <p class="mb-0">Generate questions automatically from selected syllabus content — grounded strictly in your chapters and topics.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-journal-bookmark"></i></div>
+          <h5>Chapter-wise Practice</h5>
+          <p class="mb-0">Practice individual chapters instead of studying the entire subject at once.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-sliders"></i></div>
+          <h5>Multiple Difficulty Levels</h5>
+          <p class="mb-0">Choose Easy, Medium or Hard questions depending on how confident you feel.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
+          <h5>Instant Evaluation</h5>
+          <p class="mb-0">Your score is calculated automatically the moment you submit a quiz.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-bar-chart"></i></div>
+          <h5>Performance Analytics</h5>
+          <p class="mb-0">Track accuracy, attempts and weak areas with clear, visual charts.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-collection"></i></div>
+          <h5>Smart Question Bank</h5>
+          <p class="mb-0">Save generated questions, bookmark favorites, and reuse them anytime.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section" id="how-it-works">
+  <div class="container text-center">
+    <span class="section-eyebrow">How It Works</span>
+    <h2 class="section-title">From syllabus to score in four steps</h2>
+
+    <div class="row g-4 mt-3">
+      <div class="col-md-3">
+        <div class="qm-card step-card hoverable">
+          <div class="step-number">1</div>
+          <h6>Select Your Scope</h6>
+          <p class="mb-0 small">Pick your academic year, semester, subject and chapter.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="qm-card step-card hoverable">
+          <div class="step-number">2</div>
+          <h6>AI Generates Questions</h6>
+          <p class="mb-0 small">Our AI builds questions strictly from that syllabus content.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="qm-card step-card hoverable">
+          <div class="step-number">3</div>
+          <h6>Take the Quiz</h6>
+          <p class="mb-0 small">Answer at your own pace with a live timer and progress tracker.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="qm-card step-card hoverable">
+          <div class="step-number">4</div>
+          <h6>Review & Improve</h6>
+          <p class="mb-0 small">Get instant results, explanations, and personalized recommendations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACADEMIC YEARS ============ -->
+<section class="section" id="subjects">
+  <div class="container text-center">
+    <span class="section-eyebrow">Academic Coverage</span>
+    <h2 class="section-title">Practice across your entire degree</h2>
+    <p class="section-desc">Every year of the B.Sc. Computer Science program, organized subject by subject.</p>
+
+    <div class="row g-4 mt-3">
+      <div class="col-md-4">
+        <div class="qm-card year-card hoverable">
+          <div class="year-icon"><i class="bi bi-1-circle"></i></div>
+          <h5>First Year</h5>
+          <p class="mb-0 small">Programming Fundamentals, Digital Electronics, OOP and more.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="qm-card year-card hoverable">
+          <div class="year-icon"><i class="bi bi-2-circle"></i></div>
+          <h5>Second Year</h5>
+          <p class="mb-0 small">Data Structures, DBMS, Operating Systems and more.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="qm-card year-card hoverable">
+          <div class="year-icon"><i class="bi bi-3-circle"></i></div>
+          <h5>Third Year</h5>
+          <p class="mb-0 small">Artificial Intelligence, Computer Networks, Web Technologies and more.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI QUESTION GENERATION PREVIEW ============ -->
+<section class="section" id="ai-quiz">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 order-lg-2">
+        <span class="section-eyebrow">AI Question Generation</span>
+        <h2 class="section-title">Questions built only from your syllabus</h2>
+        <p>Our AI is instructed to generate questions strictly from the selected subject, chapter and topic — no unrelated concepts, no duplicates, and exactly one correct answer for every MCQ.</p>
+        <ul class="list-unstyled d-flex flex-column gap-2">
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Choose subject, chapter, topic & difficulty</li>
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Pick MCQ, True/False or Multiple Select</li>
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Get plausible distractors and clear explanations</li>
+        </ul>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="qm-card p-4 rounded-qm-lg">
+          <span class="qm-pill mb-3"><i class="bi bi-stars"></i> AI Generated</span>
+          <div class="mockup-question-card">
+            <div class="fw-bold small mb-2">Which data structure uses FIFO (First-In-First-Out) ordering?</div>
+            <div class="mockup-option"><span>A</span> Stack</div>
+            <div class="mockup-option correct"><span>B</span> Queue</div>
+            <div class="mockup-option"><span>C</span> Tree</div>
+            <div class="mockup-option"><span>D</span> Graph</div>
+          </div>
+          <p class="small text-soft mt-3 mb-0"><i class="bi bi-lightbulb"></i> Explanation: A queue follows FIFO order — the first element added is the first to be removed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ EXPERIENCE PREVIEW ============ -->
+<section class="section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="qm-card p-4 rounded-qm-lg">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="quiz-timer" style="font-size:0.95rem"><i class="bi bi-stopwatch"></i> 18:42</span>
+            <span class="small text-soft fw-semibold">Question 6 of 10</span>
+          </div>
+          <div class="d-flex gap-2 flex-wrap mb-3">
+            {% for i in range(1, 11) %}
+              <div class="q-dot {{ 'answered' if i < 6 else ('current' if i == 6 else '') }}" style="cursor:default">{{ i }}</div>
+            {% endfor %}
+          </div>
+          <div class="fw-bold mb-2">Which OSI layer is responsible for routing packets between networks?</div>
+          <div class="option-choice selected"><div class="option-label">A</div> Network Layer</div>
+          <div class="option-choice"><div class="option-label">B</div> Transport Layer</div>
+          <div class="option-choice"><div class="option-label">C</div> Data Link Layer</div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <span class="section-eyebrow">Quiz Experience</span>
+        <h2 class="section-title">A premium, distraction-free quiz screen</h2>
+        <p>Navigate freely between questions, mark tricky ones for review, and keep an eye on the timer. When time runs out, your quiz submits automatically — no lost progress.</p>
+        <ul class="list-unstyled d-flex flex-column gap-2">
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Live countdown timer with low-time warnings</li>
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Mark for review & jump between questions</li>
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Confirmation before final submission</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANALYTICS PREVIEW ============ -->
+<section class="section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 order-lg-2">
+        <div class="qm-card p-4 rounded-qm-lg">
+          <div class="d-flex justify-content-between mb-3">
+            <div>
+              <div class="stat-value">78%</div>
+              <div class="stat-label">Overall Accuracy</div>
+            </div>
+            <div class="mini-bars" style="width:140px">
+              <span style="height:40%"></span><span style="height:65%"></span><span style="height:50%"></span>
+              <span style="height:85%"></span><span style="height:70%"></span><span style="height:95%"></span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between small fw-semibold mb-1"><span>Data Structures</span><span>54%</span></div>
+          <div class="mockup-progress-bar mb-2"><div class="mockup-progress-fill" style="width:54%;background:#F5A524"></div></div>
+          <div class="d-flex justify-content-between small fw-semibold mb-1"><span>Python Programming</span><span>91%</span></div>
+          <div class="mockup-progress-bar"><div class="mockup-progress-fill" style="width:91%"></div></div>
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <span class="section-eyebrow">Performance Analytics</span>
+        <h2 class="section-title">See exactly where you stand</h2>
+        <p>Track accuracy, attempts and weak areas over time with visual charts covering subjects, chapters and difficulty levels.</p>
+        <ul class="list-unstyled d-flex flex-column gap-2">
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Score-over-time and subject-wise charts</li>
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Automatically flagged weak & strong areas</li>
+          <li><i class="bi bi-check-circle-fill text-primary-qm"></i> Personalized practice recommendations</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY QUIZMIND AI ============ -->
+<section class="section" id="about">
+  <div class="container text-center">
+    <span class="section-eyebrow">Why QuizMind AI</span>
+    <h2 class="section-title">Designed for how students actually study</h2>
+    <div class="row g-4 mt-3 text-start">
+      <div class="col-md-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+          <h6>Syllabus-Accurate</h6>
+          <p class="mb-0 small">Questions never stray outside your selected syllabus scope.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-emoji-smile"></i></div>
+          <h6>Friendly & Approachable</h6>
+          <p class="mb-0 small">A clean, calm interface that keeps you focused on learning.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="qm-card feature-card hoverable">
+          <div class="feature-icon"><i class="bi bi-graph-up"></i></div>
+          <h6>Actually Improves Scores</h6>
+          <p class="mb-0 small">Recommendations are grounded in your real quiz history.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section">
+  <div class="container" style="max-width:760px">
+    <div class="text-center">
+      <span class="section-eyebrow">FAQ</span>
+      <h2 class="section-title">Frequently asked questions</h2>
+    </div>
+    <div class="mt-4">
+      <div class="faq-item open">
+        <div class="faq-question">Is QuizMind AI free to use? <span class="faq-toggle-icon">+</span></div>
+        <div class="faq-answer">Yes — you can register as a student and start practicing immediately with generated and question-bank quizzes.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Where do the questions come from? <span class="faq-toggle-icon">+</span></div>
+        <div class="faq-answer">Questions are generated by AI strictly from the syllabus content configured by your administrator — subject, chapter and topic scoped.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Does the platform work without an AI API key? <span class="faq-toggle-icon">+</span></div>
+        <div class="faq-answer">Yes. QuizMind AI includes an offline demo mode so question generation and syllabus analysis work even without a configured AI provider.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Can I practice specific chapters only? <span class="faq-toggle-icon">+</span></div>
+        <div class="faq-answer">Absolutely — you can scope a quiz down to a single chapter or even a single topic within a chapter.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Is my progress saved automatically? <span class="faq-toggle-icon">+</span></div>
+        <div class="faq-answer">Yes, every quiz attempt updates your performance analytics and recommendations automatically.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="section">
+  <div class="container">
+    <div class="cta-banner">
+      <h2>Ready to prepare smarter?</h2>
+      <p class="mb-4">Join QuizMind AI and turn your syllabus into a personalized practice engine today.</p>
+      <a href="{{ url_for('auth.register') }}" class="btn btn-qm-white btn-lg">Start Practicing — It's Free</a>
+    </div>
+  </div>
+</section>
+
+{% include "includes/footer.html" %}
+{% endblock %}

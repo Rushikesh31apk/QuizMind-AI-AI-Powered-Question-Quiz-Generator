@@ -1,0 +1,37 @@
+{% extends "student/_layout.html" %}
+{% block title %}Subjects{% endblock %}
+{% block content %}
+<h3 class="mb-1">Subjects</h3>
+<p class="mb-4">Browse the syllabus by year and semester, then practice any chapter.</p>
+
+{% if not years %}
+<div class="qm-panel qm-empty-state"><div class="icon-wrap"><i class="bi bi-book"></i></div><h5>No syllabus yet</h5><p>Your administrator hasn't added any subjects.</p></div>
+{% endif %}
+
+{% for year in years %}
+<h5 class="mt-4 mb-3"><i class="bi bi-mortarboard text-primary-qm"></i> {{ year.name }}</h5>
+{% for sem in year.semesters %}
+  <div class="qm-soft small fw-bold text-soft mb-2">{{ sem.name }}</div>
+  <div class="row g-3 mb-3">
+    {% for subj in sem.subjects %}
+    <div class="col-md-6 col-xl-4">
+      <div class="qm-card p-3 h-100">
+        <div class="d-flex justify-content-between align-items-start">
+          <div><div class="fw-bold">{{ subj.name }}</div>{% if subj.code %}<div class="small text-soft">{{ subj.code }}</div>{% endif %}</div>
+          <a href="{{ url_for('quiz.start') }}?subject_id={{ subj.id }}" class="btn btn-qm-primary btn-sm-pill">Practice</a>
+        </div>
+        <ul class="list-unstyled small mt-3 mb-0">
+          {% for ch in subj.chapters %}
+          <li class="d-flex justify-content-between py-1 border-top" style="border-color:var(--qm-border)!important">
+            <span>{{ ch.name }}</span>
+            <a href="{{ url_for('quiz.start') }}?subject_id={{ subj.id }}&chapter_id={{ ch.id }}" class="text-primary-qm fw-semibold">Quiz</a>
+          </li>
+          {% else %}<li class="text-soft">No chapters yet</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% else %}<p class="small text-soft">No subjects in this semester.</p>{% endfor %}
+  </div>
+{% endfor %}
+{% endfor %}
+{% endblock %}

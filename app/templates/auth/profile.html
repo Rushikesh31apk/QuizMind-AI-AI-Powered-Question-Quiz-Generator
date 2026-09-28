@@ -1,0 +1,50 @@
+{% extends "admin/_layout.html" if current_user.is_admin else "student/_layout.html" %}
+{% block title %}My Profile{% endblock %}
+{% block page_heading %}My Profile{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="qm-panel text-center">
+      <div class="avatar-circle mx-auto mb-3" style="width:84px;height:84px;font-size:2rem;">{{ current_user.full_name[0]|upper }}</div>
+      <h5 class="mb-1">{{ current_user.full_name }}</h5>
+      <p class="mb-2">{{ current_user.email }}</p>
+      <span class="qm-pill">{{ current_user.role|capitalize }}</span>
+      {% if current_user.academic_year %}<p class="small mt-3 mb-0">{{ current_user.academic_year.name }}</p>{% endif %}
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="qm-panel">
+      <h5 class="qm-panel-title mb-3">Edit Profile</h5>
+      <form method="POST" action="{{ url_for('auth.profile') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Full Name</label>
+            <input class="form-control" name="full_name" value="{{ current_user.full_name }}" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email (read-only)</label>
+            <input class="form-control" value="{{ current_user.email }}" disabled>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Academic Year</label>
+            <select class="form-select" name="academic_year_id">
+              <option value="">Not set</option>
+              {% for y in years %}<option value="{{ y.id }}" {{ 'selected' if current_user.academic_year_id == y.id }}>{{ y.name }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">College Name</label>
+            <input class="form-control" name="college_name" value="{{ current_user.college_name or '' }}">
+          </div>
+          <div class="col-12">
+            <label class="form-label">New Password <span class="text-soft fw-normal">(leave blank to keep current)</span></label>
+            <input type="password" class="form-control" name="new_password" placeholder="At least 6 characters">
+          </div>
+        </div>
+        <button class="btn btn-qm-primary mt-4" type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

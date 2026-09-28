@@ -1,0 +1,66 @@
+{% extends "student/_layout.html" %}
+{% block title %}Quiz Result{% endblock %}
+{% block dash_extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">{% endblock %}
+{% block content %}
+{% set label = attempt.performance_label() %}
+<div class="qm-card qm-card-glass result-hero mb-4 fade-in-up">
+  <h3>{{ 'Congratulations' if attempt.percentage >= 60 else 'Good effort' }}, {{ current_user.full_name.split()[0] }}!</h3>
+  <p class="mb-0">{{ attempt.quiz.title }}</p>
+  <div class="score-ring-wrap">
+    <svg class="score-ring-svg progress-ring" width="190" height="190" viewBox="0 0 190 190" data-percentage="{{ attempt.percentage }}">
+      <circle cx="95" cy="95" r="82" fill="none" stroke="#E6F5EE" stroke-width="14"/>
+      <circle class="score-ring-progress" cx="95" cy="95" r="82" fill="none" stroke="{{ '#16C784' if attempt.percentage >= 60 else '#F5A524' }}" stroke-width="14" stroke-linecap="round" transform="rotate(-90 95 95)"/>
+    </svg>
+    <div class="score-ring-value"><div class="big">{{ attempt.score }} / {{ attempt.total_questions }}</div><div class="text-soft fw-semibold">{{ attempt.percentage|round|int }}%</div></div>
+  </div>
+  <span class="qm-pill" style="font-size:1rem">{{ label }}</span>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg"><div class="qm-card result-stat"><div class="val text-primary-qm">{{ attempt.correct_count }}</div><div class="lbl">Correct</div></div></div>
+  <div class="col-6 col-lg"><div class="qm-card result-stat"><div class="val" style="color:var(--qm-danger)">{{ attempt.wrong_count }}</div><div class="lbl">Wrong</div></div></div>
+  <div class="col-6 col-lg"><div class="qm-card result-stat"><div class="val">{{ attempt.unanswered_count }}</div><div class="lbl">Unanswered</div></div></div>
+  <div class="col-6 col-lg"><div class="qm-card result-stat"><div class="val">{{ attempt.percentage|round|int }}%</div><div class="lbl">Accuracy</div></div></div>
+  <div class="col-12 col-lg"><div class="qm-card result-stat"><div class="val">{{ attempt.time_taken_seconds // 60 }}m {{ attempt.time_taken_seconds % 60 }}s</div><div class="lbl">Time Taken</div></div></div>
+</div>
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+  <a href="{{ url_for('quiz.retry', quiz_id=attempt.quiz_id) }}" class="btn btn-qm-primary"><i class="bi bi-arrow-repeat"></i> Retry Quiz</a>
+  <a href="{{ url_for('quiz.start') }}?subject_id={{ attempt.quiz.subject_id }}{% if attempt.quiz.chapter_id %}&chapter_id={{ attempt.quiz.chapter_id }}{% endif %}" class="btn btn-qm-outline"><i class="bi bi-bullseye"></i> Practice Weak Topics</a>
+  <a href="{{ url_for('student.dashboard') }}" class="btn btn-qm-ghost">Back to Dashboard</a>
+</div>
+
+<h5 class="mb-3">Question Review</h5>
+{% for ans in attempt.answers %}
+{% set q = ans.question %}
+<div class="review-item {{ 'correct-item' if ans.is_correct else ('unanswered-item' if not ans.selected_answer else 'incorrect-item') }}">
+  <div class="d-flex justify-content-between gap-2">
+    <div class="fw-bold">{{ loop.index }}. {{ q.question_text }}</div>
+    <button class="btn btn-qm-ghost btn-sm-pill bm-toggle" data-qid="{{ q.id }}"><i class="bi {{ 'bi-bookmark-fill text-primary-qm' if q.id in bookmarked_ids else 'bi-bookmark' }}"></i></button>
+  </div>
+  <div class="mt-2">
+    {% for o in q.options %}
+    <div class="option-choice {{ 'correct' if o.option_label == q.correct_answer else ('incorrect' if o.option_label == ans.selected_answer else '') }}" style="cursor:default;padding:.5rem .8rem;margin-bottom:.4rem">
+      <div class="option-label">{{ o.option_label }}</div><div>{{ o.option_text }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="small mt-2"><strong>Your answer:</strong> {{ ans.selected_answer or 'Not answered' }} &nbsp;|&nbsp; <strong>Correct:</strong> {{ q.correct_answer }}</div>
+  {% if q.explanation %}<div class="small text-soft mt-1"><i class="bi bi-lightbulb"></i> {{ q.explanation }}</div>{% endif %}
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block dash_extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.bm-toggle').forEach(btn => btn.addEventListener('click', async () => {
+    const res = await qmFetch('/bookmarks/toggle', {method:'POST', body: JSON.stringify({question_id: btn.dataset.qid})});
+    if (res.data) {
+      showToast(res.data.message, 'success');
+      btn.innerHTML = `<i class="bi ${res.data.bookmarked ? 'bi-bookmark-fill text-primary-qm' : 'bi-bookmark'}"></i>`;
+    }
+  }));
+});
+</script>
+{% endblock %}

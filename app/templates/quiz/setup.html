@@ -1,0 +1,69 @@
+{% extends "student/_layout.html" %}
+{% block title %}Take Quiz{% endblock %}
+{% block content %}
+<h3 class="mb-1">Take a Quiz</h3>
+<p class="mb-4">Choose your scope and let AI prepare your questions.</p>
+<div class="row"><div class="col-xl-8">
+<div class="qm-panel">
+  <form method="POST" action="{{ url_for('quiz.start') }}" id="quizSetupForm">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row g-3">
+      <div class="col-md-6"><label class="form-label">Academic Year</label><select id="selYear" class="form-select"><option value="">Select year</option>{% for y in years %}<option value="{{ y.id }}">{{ y.name }}</option>{% endfor %}</select></div>
+      <div class="col-md-6"><label class="form-label">Semester</label><select id="selSem" class="form-select" disabled><option value="">Select semester</option></select></div>
+      <div class="col-md-6"><label class="form-label">Subject</label><select id="selSubject" name="subject_id" class="form-select" required disabled><option value="">Select subject</option></select></div>
+      <div class="col-md-6"><label class="form-label">Chapter</label><select id="selChapter" name="chapter_id" class="form-select" disabled><option value="">Whole subject</option></select></div>
+      <div class="col-md-6"><label class="form-label">Topic (optional)</label><select id="selTopic" name="topic_id" class="form-select" disabled><option value="">Any topic</option></select></div>
+      <div class="col-md-6"><label class="form-label">Question Type</label><select name="question_type" class="form-select"><option value="mcq">MCQ</option><option value="true_false">True/False</option></select></div>
+      <div class="col-md-4"><label class="form-label">Difficulty</label><select name="difficulty" class="form-select"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></div>
+      <div class="col-md-4"><label class="form-label">Number of Questions</label><select name="num_questions" class="form-select"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></div>
+      <div class="col-md-4"><label class="form-label">Time (minutes)</label><select name="time_limit" class="form-select"><option>10</option><option>15</option><option selected>30</option><option>45</option><option>60</option></select></div>
+    </div>
+    <button type="submit" class="btn btn-qm-primary btn-lg mt-4" id="startBtn"><i class="bi bi-stars"></i> Start Quiz</button>
+  </form>
+</div></div></div>
+{% endblock %}
+
+{% block dash_extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const $ = id => document.getElementById(id);
+  const params = new URLSearchParams(location.search);
+  async function fill(sel, url, placeholder) {
+    sel.innerHTML = `<option value="">${placeholder}</option>`;
+    const items = await (await fetch(url)).json();
+    items.forEach(i => sel.innerHTML += `<option value="${i.id}">${i.name}</option>`);
+    sel.disabled = items.length === 0 && placeholder !== 'Whole subject' && placeholder !== 'Any topic' ? true : false;
+    if (!items.length && (placeholder === 'Whole subject' || placeholder === 'Any topic')) sel.disabled = false;
+    return items;
+  }
+  $('selYear').addEventListener('change', async () => {
+    $('selSem').disabled = !$('selYear').value;
+    await fill($('selSem'), `/api/semesters?academic_year_id=${$('selYear').value}`, 'Select semester');
+    $('selSem').disabled = false; $('selSubject').innerHTML = '<option value="">Select subject</option>'; $('selSubject').disabled = true;
+  });
+  $('selSem').addEventListener('change', async () => {
+    await fill($('selSubject'), `/api/subjects?semester_id=${$('selSem').value}`, 'Select subject'); $('selSubject').disabled = false;
+  });
+  $('selSubject').addEventListener('change', async () => {
+    await fill($('selChapter'), `/api/chapters?subject_id=${$('selSubject').value}`, 'Whole subject'); $('selChapter').disabled = false;
+    $('selTopic').innerHTML = '<option value="">Any topic</option>';
+  });
+  $('selChapter').addEventListener('change', async () => {
+    await fill($('selTopic'), `/api/topics?chapter_id=${$('selChapter').value}`, 'Any topic'); $('selTopic').disabled = false;
+  });
+  $('quizSetupForm').addEventListener('submit', () => {
+    $('startBtn').disabled = true; $('startBtn').innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Preparing your quiz...';
+  });
+  // Prefill from ?subject_id=&chapter_id=
+  const pre = params.get('subject_id');
+  if (pre) fetch(`/api/subject-path?subject_id=${pre}`).then(r => r.json()).then(async p => {
+    if (!p.year_id) return;
+    $('selYear').value = p.year_id; await fill($('selSem'), `/api/semesters?academic_year_id=${p.year_id}`, 'Select semester');
+    $('selSem').disabled = false; $('selSem').value = p.semester_id;
+    await fill($('selSubject'), `/api/subjects?semester_id=${p.semester_id}`, 'Select subject'); $('selSubject').disabled = false; $('selSubject').value = pre;
+    await fill($('selChapter'), `/api/chapters?subject_id=${pre}`, 'Whole subject'); $('selChapter').disabled = false;
+    if (params.get('chapter_id')) { $('selChapter').value = params.get('chapter_id'); await fill($('selTopic'), `/api/topics?chapter_id=${params.get('chapter_id')}`, 'Any topic'); $('selTopic').disabled = false; }
+  });
+});
+</script>
+{% endblock %}

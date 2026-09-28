@@ -1,0 +1,31 @@
+{% extends "admin/_layout.html" %}
+{% block title %}AI Syllabus Analyzer{% endblock %}
+{% block page_heading %}AI Syllabus Analyzer{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="qm-panel">
+      <h5 class="qm-panel-title"><i class="bi bi-stars text-primary-qm"></i> Upload or paste syllabus</h5>
+      <p class="small">The analyzer extracts only what is present in your syllabus — it never invents topics. Review the preview before importing.</p>
+      <form id="syllabusAnalyzeForm" action="{{ url_for('admin.analyze_syllabus') }}" enctype="multipart/form-data">
+        <div class="mb-3"><label class="form-label">Syllabus file (.pdf or .txt, max 10 MB)</label><input type="file" class="form-control" name="syllabus_file" accept=".pdf,.txt"></div>
+        <div class="text-center small text-soft mb-2">— or paste text —</div>
+        <div class="mb-3"><textarea id="syllabusTextArea" class="form-control" name="syllabus_text" rows="10" placeholder="Third Year&#10;Semester V&#10;Subject: Artificial Intelligence&#10;Code: CS-501&#10;Unit 1: Introduction to AI&#10;Intelligent agents&#10;Problem solving&#10;Search techniques"></textarea></div>
+        <button type="submit" id="analyzeBtn" class="btn btn-qm-primary w-100"><i class="bi bi-stars"></i> Analyze Syllabus</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="qm-panel">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="qm-panel-title mb-0">Detected Structure</h5>
+        <div class="d-flex gap-2">
+          <button id="cancelPreviewBtn" class="btn btn-qm-outline btn-sm-pill" type="button">Cancel</button>
+          <button id="importSyllabusBtn" class="btn btn-qm-primary btn-sm-pill d-none" type="button" data-import-url="{{ url_for('admin.import_syllabus') }}"><i class="bi bi-cloud-arrow-up"></i> Import to Database</button>
+        </div>
+      </div>
+      <div id="syllabusPreview"><p class="small text-soft mb-0">Analyze a syllabus to preview the detected year, semester, subject, units and topics here. To change something before importing, edit the source text and analyze again, or edit records afterwards in Subjects / Chapters / Topics.</p></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

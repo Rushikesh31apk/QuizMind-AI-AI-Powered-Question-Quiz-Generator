@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
+{% block body_class %}landing{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">{% endblock %}
+
+{% block body %}
+{% include "includes/navbar.html" %}
+
+<section class="section">
+  <div class="container" style="max-width:900px">
+    <form class="qm-search-form d-flex gap-2 mb-4" method="GET" action="{{ url_for('main.search') }}">
+      <div class="position-relative flex-grow-1">
+        <i class="bi bi-search position-absolute" style="left:1rem; top:50%; transform:translateY(-50%); color:var(--qm-text-soft)"></i>
+        <input type="text" class="form-control ps-5" name="q" value="{{ query }}" placeholder="Search subjects, chapters, topics or questions...">
+      </div>
+      <button type="submit" class="btn btn-qm-primary">Search</button>
+      <button type="button" class="btn btn-qm-outline qm-search-clear">Clear</button>
+    </form>
+
+    {% if query %}
+      <p class="text-soft">Results for "<strong>{{ query }}</strong>"</p>
+
+      {% if not (results.subjects or results.chapters or results.topics or results.questions) %}
+        <div class="qm-empty-state qm-card">
+          <div class="icon-wrap"><i class="bi bi-search"></i></div>
+          <h5>No results found</h5>
+          <p>Try a different keyword or check the spelling.</p>
+        </div>
+      {% else %}
+        {% if results.subjects %}
+        <h6 class="mt-4"><i class="bi bi-journal-bookmark"></i> Subjects</h6>
+        <div class="row g-3">
+          {% for s in results.subjects %}
+          <div class="col-md-4"><div class="qm-card p-3">{{ s.name }}</div></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if results.chapters %}
+        <h6 class="mt-4"><i class="bi bi-journal-text"></i> Chapters</h6>
+        <div class="row g-3">
+          {% for c in results.chapters %}
+          <div class="col-md-4"><div class="qm-card p-3">{{ c.name }} <span class="small text-soft">({{ c.subject.name }})</span></div></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if results.topics %}
+        <h6 class="mt-4"><i class="bi bi-bookmark"></i> Topics</h6>
+        <div class="row g-3">
+          {% for t in results.topics %}
+          <div class="col-md-4"><div class="qm-card p-3">{{ t.name }} <span class="small text-soft">({{ t.chapter.name }})</span></div></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if results.questions %}
+        <h6 class="mt-4"><i class="bi bi-patch-question"></i> Questions</h6>
+        <div class="row g-3">
+          {% for q in results.questions %}
+          <div class="col-12"><div class="qm-card p-3">{{ q.question_text }}</div></div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{% include "includes/footer.html" %}
+{% endblock %}

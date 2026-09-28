@@ -1,0 +1,32 @@
+{% extends "student/_layout.html" %}
+{% block title %}Performance{% endblock %}
+{% block content %}
+<h3 class="mb-1">Performance</h3>
+<p class="mb-4">Track your accuracy, progress and weak areas.</p>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-xl-3"><div class="qm-card stat-card"><div class="stat-icon"><i class="bi bi-bullseye"></i></div><div><div class="stat-value">{{ overall_accuracy }}%</div><div class="stat-label">Overall Accuracy</div></div></div></div>
+  <div class="col-6 col-xl-3"><div class="qm-card stat-card"><div class="stat-icon"><i class="bi bi-percent"></i></div><div><div class="stat-value">{{ avg_score }}%</div><div class="stat-label">Average Score</div></div></div></div>
+  <div class="col-6 col-xl-3"><div class="qm-card stat-card"><div class="stat-icon"><i class="bi bi-check2-square"></i></div><div><div class="stat-value">{{ total_questions }}</div><div class="stat-label">Total Questions</div></div></div></div>
+  <div class="col-6 col-xl-3"><div class="qm-card stat-card"><div class="stat-icon"><i class="bi bi-patch-question"></i></div><div><div class="stat-value">{{ total_attempts }}</div><div class="stat-label">Total Quizzes</div></div></div></div>
+</div>
+
+{% if total_attempts %}
+<div class="row g-4 mb-4">
+  <div class="col-lg-7"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Score Over Time</h5><div style="height:260px"><canvas data-chart="line" data-label="Score %" data-labels='{{ score_over_time|map(attribute="label")|list|tojson }}' data-values='{{ score_over_time|map(attribute="value")|list|tojson }}'></canvas></div></div></div>
+  <div class="col-lg-5"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Correct vs Incorrect</h5><div style="height:260px"><canvas data-chart="doughnut" data-multi-colors="true" data-labels='["Correct","Incorrect","Unanswered"]' data-values='[{{ correct_vs_incorrect.correct }},{{ correct_vs_incorrect.incorrect }},{{ correct_vs_incorrect.unanswered }}]'></canvas></div></div></div>
+  <div class="col-lg-4"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Subject-wise</h5><div style="height:240px"><canvas data-chart="bar" data-label="Accuracy %" data-labels='{{ subject_chart|map(attribute="label")|list|tojson }}' data-values='{{ subject_chart|map(attribute="value")|list|tojson }}'></canvas></div></div></div>
+  <div class="col-lg-4"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Chapter-wise</h5><div style="height:240px"><canvas data-chart="bar" data-label="Accuracy %" data-labels='{{ chapter_chart|map(attribute="label")|list|tojson }}' data-values='{{ chapter_chart|map(attribute="value")|list|tojson }}'></canvas></div></div></div>
+  <div class="col-lg-4"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Difficulty-wise</h5><div style="height:240px"><canvas data-chart="bar" data-label="Accuracy %" data-labels='{{ difficulty_chart|map(attribute="label")|list|tojson }}' data-values='{{ difficulty_chart|map(attribute="value")|list|tojson }}'></canvas></div></div></div>
+</div>
+
+<div class="row g-4">
+  <div class="col-md-6"><div class="qm-panel"><h5 class="qm-panel-title mb-3"><i class="bi bi-exclamation-circle text-warning"></i> Weak Areas</h5>
+    {% for w in weak_areas %}{% if w.accuracy < 70 %}<div class="d-flex justify-content-between py-2 border-bottom"><span class="fw-semibold">{{ w.subject.name }}</span><span>Accuracy: <strong>{{ w.accuracy|round|int }}%</strong></span></div>{% endif %}{% else %}<p class="small mb-0">No data yet.</p>{% endfor %}</div></div>
+  <div class="col-md-6"><div class="qm-panel"><h5 class="qm-panel-title mb-3"><i class="bi bi-award text-primary-qm"></i> Strong Areas</h5>
+    {% for s in strong_areas %}{% if s.accuracy >= 70 %}<div class="d-flex justify-content-between py-2 border-bottom"><span class="fw-semibold">{{ s.subject.name }}</span><span>Accuracy: <strong>{{ s.accuracy|round|int }}%</strong></span></div>{% endif %}{% else %}<p class="small mb-0">No data yet.</p>{% endfor %}</div></div>
+</div>
+{% else %}
+<div class="qm-panel qm-empty-state"><div class="icon-wrap"><i class="bi bi-bar-chart"></i></div><h5>No quizzes yet</h5><p>Start your first quiz and see your performance here.</p><a href="{{ url_for('quiz.start') }}" class="btn btn-qm-primary">Take Your First Quiz</a></div>
+{% endif %}
+{% endblock %}

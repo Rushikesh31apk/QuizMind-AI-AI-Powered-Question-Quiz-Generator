@@ -1,0 +1,12 @@
+{% extends "admin/_layout.html" %}
+{% block title %}Quiz Attempts{% endblock %}
+{% block page_heading %}Quiz Attempts{% endblock %}
+{% block content %}
+<div class="qm-panel">
+{% if attempts %}
+<div class="qm-table-wrap"><table class="table qm-table mb-0"><thead><tr><th>Student</th><th>Quiz</th><th>Score</th><th>Result</th><th>Time</th><th>Submitted</th></tr></thead><tbody>
+{% for a in attempts %}<tr><td class="fw-semibold">{{ a.student.full_name }}</td><td>{{ a.quiz.title }}</td><td>{{ a.score }}/{{ a.total_questions }} ({{ a.percentage|round|int }}%)</td><td>{{ a.performance_label() }}</td><td>{{ a.time_taken_seconds // 60 }}m {{ a.time_taken_seconds % 60 }}s</td><td>{{ a.submitted_at.strftime('%d %b %Y %H:%M') }}</td></tr>{% endfor %}
+</tbody></table></div>
+{% else %}<div class="qm-empty-state"><div class="icon-wrap"><i class="bi bi-clock-history"></i></div><h5>No attempts yet</h5><p>Submitted quizzes will be listed here.</p></div>{% endif %}
+</div>
+{% endblock %}

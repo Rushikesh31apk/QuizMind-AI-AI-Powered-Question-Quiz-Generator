@@ -1,0 +1,20 @@
+{% extends "admin/_layout.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block page_heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="row g-3 mb-4">
+  {% for label, val, icon in [('Total Students', total_students, 'bi-people'), ('Total Subjects', total_subjects, 'bi-book'), ('Total Questions', total_questions, 'bi-patch-question'), ('Total Quizzes', total_quizzes, 'bi-collection'), ('Total Attempts', total_attempts, 'bi-clock-history')] %}
+  <div class="col-6 col-xl"><div class="qm-card stat-card"><div class="stat-icon"><i class="bi {{ icon }}"></i></div><div><div class="stat-value">{{ val }}</div><div class="stat-label">{{ label }}</div></div></div></div>
+  {% endfor %}
+</div>
+<div class="row g-4">
+  <div class="col-lg-6"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Student Registrations (30 days)</h5><div style="height:240px"><canvas data-chart="line" data-label="Registrations" data-labels='{{ registrations|map(attribute="label")|list|tojson }}' data-values='{{ registrations|map(attribute="value")|list|tojson }}'></canvas></div></div></div>
+  <div class="col-lg-6"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Quiz Attempts (30 days)</h5><div style="height:240px"><canvas data-chart="line" data-label="Attempts" data-labels='{{ attempts_over_time|map(attribute="label")|list|tojson }}' data-values='{{ attempts_over_time|map(attribute="value")|list|tojson }}'></canvas></div></div></div>
+  <div class="col-lg-6"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Most Practiced Subjects</h5><div style="height:240px"><canvas data-chart="bar" data-label="Attempts" data-labels='{{ top_subjects|map(attribute="label")|list|tojson }}' data-values='{{ top_subjects|map(attribute="value")|list|tojson }}'></canvas></div></div></div>
+  <div class="col-lg-6"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Average Scores by Subject</h5><div style="height:240px"><canvas data-chart="bar" data-label="Avg %" data-labels='{{ avg_scores_by_subject|map(attribute="label")|list|tojson }}' data-values='{{ avg_scores_by_subject|map(attribute="value")|list|tojson }}'></canvas></div></div></div>
+  <div class="col-12"><div class="qm-panel"><h5 class="qm-panel-title mb-3">Recent Students</h5>
+    {% if recent_students %}<div class="qm-table-wrap"><table class="table qm-table mb-0"><thead><tr><th>Name</th><th>Email</th><th>Joined</th></tr></thead><tbody>
+    {% for s in recent_students %}<tr><td>{{ s.full_name }}</td><td>{{ s.email }}</td><td>{{ s.created_at.strftime('%d %b %Y') }}</td></tr>{% endfor %}</tbody></table></div>
+    {% else %}<p class="small mb-0">No students yet.</p>{% endif %}</div></div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "admin/_layout.html" %}
+{% block title %}Question Bank{% endblock %}
+{% block page_heading %}Question Bank{% endblock %}
+{% block content %}
+<div class="qm-panel mb-3">
+  <form method="GET" class="row g-2 align-items-end">
+    <div class="col-md-3"><input class="form-control" name="q" placeholder="Search questions" value="{{ filters.get('q','') }}"></div>
+    <div class="col-md-2"><select name="subject_id" class="form-select"><option value="">All subjects</option>{% for s in subjects %}<option value="{{ s.id }}" {{ 'selected' if filters.get('subject_id') == s.id|string }}>{{ s.name }}</option>{% endfor %}</select></div>
+    <div class="col-md-2"><select name="chapter_id" class="form-select"><option value="">All chapters</option>{% for c in chapters %}<option value="{{ c.id }}" {{ 'selected' if filters.get('chapter_id') == c.id|string }}>{{ c.name }}</option>{% endfor %}</select></div>
+    <div class="col-md-2"><select name="difficulty" class="form-select"><option value="">Any difficulty</option>{% for d in ['Easy','Medium','Hard'] %}<option {{ 'selected' if filters.get('difficulty') == d }}>{{ d }}</option>{% endfor %}</select></div>
+    <div class="col-md-1"><select name="status" class="form-select"><option value="">Status</option>{% for d in ['Draft','Approved','Rejected'] %}<option {{ 'selected' if filters.get('status') == d }}>{{ d }}</option>{% endfor %}</select></div>
+    <div class="col-md-2 d-flex gap-2"><button class="btn btn-qm-primary">Search</button><a href="{{ url_for('admin.questions') }}" class="btn btn-qm-outline">Clear</a></div>
+  </form>
+</div>
+
+{% if questions %}
+{% for q in questions %}
+<div class="qm-card p-3 mb-3" id="question-row-{{ q.id }}">
+  <div class="d-flex justify-content-between gap-2 flex-wrap">
+    <div class="fw-bold">{{ q.question_text }}</div>
+    <div class="d-flex gap-1 align-items-center"><span class="qm-badge qm-badge-{{ q.difficulty|lower }}">{{ q.difficulty }}</span><span id="status-badge-{{ q.id }}" class="qm-badge qm-badge-{{ q.status|lower }}">{{ q.status }}</span></div>
+  </div>
+  <div class="small text-soft mb-2">{{ q.subject.name }} · {{ q.chapter.name }}{% if q.topic %} · {{ q.topic.name }}{% endif %}</div>
+  <ul class="small mb-2">{% for o in q.options %}<li class="{{ 'text-primary-qm fw-bold' if o.option_label == q.correct_answer }}">{{ o.option_label }}. {{ o.option_text }}</li>{% endfor %}</ul>
+  <div class="d-flex flex-wrap gap-2">
+    <button class="btn btn-qm-outline btn-sm-pill q-status-btn" data-qid="{{ q.id }}" data-status="Approved"><i class="bi bi-check2"></i> Approve</button>
+    <button class="btn btn-qm-outline btn-sm-pill q-status-btn" data-qid="{{ q.id }}" data-status="Rejected"><i class="bi bi-x"></i> Reject</button>
+    <button class="btn btn-qm-outline btn-sm-pill q-regenerate-btn" data-qid="{{ q.id }}"><i class="bi bi-arrow-repeat"></i> Regenerate</button>
+    <button class="btn btn-qm-outline btn-sm-pill q-edit-btn" data-bs-toggle="modal" data-bs-target="#editQModal" data-qid="{{ q.id }}"
+      data-question="{{ q.question_text|e }}" data-difficulty="{{ q.difficulty }}" data-correct="{{ q.correct_answer }}" data-explanation="{{ (q.explanation or '')|e }}"
+      data-options='{{ q.options|map(attribute="option_text")|list|tojson }}'><i class="bi bi-pencil"></i> Edit</button>
+    <button class="btn btn-qm-ghost btn-sm-pill text-danger q-delete-btn" data-qid="{{ q.id }}"><i class="bi bi-trash"></i></button>
+  </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="qm-panel qm-empty-state"><div class="icon-wrap"><i class="bi bi-collection"></i></div><h5>No questions found</h5><p>Generate questions with the AI generator or adjust your filters.</p><a href="{{ url_for('admin.question_generator') }}" class="btn btn-qm-primary">Open AI Generator</a></div>
+{% endif %}
+
+<div class="modal fade" id="editQModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content" style="border-radius:24px">
+  <div class="modal-header border-0"><h5 class="modal-title">Edit Question</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <input type="hidden" id="eqId">
+    <div class="mb-3"><label class="form-label">Question</label><textarea id="eqText" class="form-control" rows="2"></textarea></div>
+    <div class="row g-2 mb-3">{% for l in ['A','B','C','D'] %}<div class="col-md-6"><label class="form-label">Option {{ l }}</label><input id="eqOpt{{ l }}" class="form-control"></div>{% endfor %}</div>
+    <div class="row g-2 mb-3">
+      <div class="col-md-6"><label class="form-label">Correct Answer</label><select id="eqCorrect" class="form-select"><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+      <div class="col-md-6"><label class="form-label">Difficulty</label><select id="eqDiff" class="form-select"><option>Easy</option><option>Medium</option><option>Hard</option></select></div>
+    </div>
+    <div><label class="form-label">Explanation</label><textarea id="eqExp" class="form-control" rows="2"></textarea></div>
+  </div>
+  <div class="modal-footer border-0"><button class="btn btn-qm-outline" data-bs-dismiss="modal">Cancel</button><button id="eqSave" class="btn btn-qm-primary">Save Changes</button></div>
+</div></div></div>
+{% endblock %}

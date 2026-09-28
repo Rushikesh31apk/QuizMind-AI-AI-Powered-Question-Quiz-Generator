@@ -1,0 +1,22 @@
+{% extends "admin/_layout.html" %}
+{% block title %}Students{% endblock %}
+{% block page_heading %}Students{% endblock %}
+{% block content %}
+<form method="GET" class="d-flex flex-wrap gap-2 mb-3">
+  <input class="form-control" style="max-width:340px" name="q" placeholder="Search name or email" value="{{ search }}">
+  <button class="btn btn-qm-primary">Search</button><a href="{{ url_for('admin.students') }}" class="btn btn-qm-outline">Clear</a>
+</form>
+<div class="qm-panel">
+{% if students %}
+<div class="qm-table-wrap"><table class="table qm-table mb-0"><thead><tr><th>Name</th><th>Email</th><th>Year</th><th>College</th><th>Joined</th><th>Status</th><th class="text-end">Actions</th></tr></thead><tbody>
+{% for s in students %}
+<tr><td class="fw-semibold">{{ s.full_name }}</td><td>{{ s.email }}</td><td>{{ s.academic_year.name if s.academic_year else '-' }}</td><td>{{ s.college_name or '-' }}</td><td>{{ s.created_at.strftime('%d %b %Y') }}</td>
+<td><span class="qm-badge {{ 'qm-badge-approved' if s.is_active_account else 'qm-badge-rejected' }}">{{ 'Active' if s.is_active_account else 'Inactive' }}</span></td>
+<td class="text-end text-nowrap">
+  <form method="POST" action="{{ url_for('admin.toggle_student_active', student_id=s.id) }}" class="d-inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-qm-outline btn-sm-pill">{{ 'Deactivate' if s.is_active_account else 'Activate' }}</button></form>
+  <form method="POST" action="{{ url_for('admin.delete_student', student_id=s.id) }}" class="d-inline confirm-delete" data-confirm="Remove this student and all their attempts?"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-qm-ghost btn-sm-pill text-danger"><i class="bi bi-trash"></i></button></form>
+</td></tr>
+{% endfor %}</tbody></table></div>
+{% else %}<div class="qm-empty-state"><div class="icon-wrap"><i class="bi bi-people"></i></div><h5>No students found</h5><p>Students appear here after they register.</p></div>{% endif %}
+</div>
+{% endblock %}

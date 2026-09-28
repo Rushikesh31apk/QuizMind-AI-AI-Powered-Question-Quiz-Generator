@@ -1,0 +1,32 @@
+{% extends "admin/_layout.html" %}
+{% block title %}AI Question Generator{% endblock %}
+{% block page_heading %}AI Question Generator{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="qm-panel">
+      <h5 class="qm-panel-title mb-3"><i class="bi bi-stars text-primary-qm"></i> Generate questions</h5>
+      <form id="questionGenForm" action="{{ url_for('admin.generate_questions_preview') }}">
+        <div class="mb-3"><label class="form-label">Subject</label><select id="genSubject" class="form-select" required><option value="">Select subject</option>{% for s in subjects %}<option value="{{ s.id }}">{{ s.semester.academic_year.name }} · {{ s.name }}</option>{% endfor %}</select></div>
+        <div class="mb-3"><label class="form-label">Chapter</label><select id="genChapter" class="form-select"><option value="">Whole Subject</option></select></div>
+        <div class="mb-3"><label class="form-label">Topic</label><select id="genTopic" class="form-select"><option value="">Any Topic</option></select></div>
+        <div class="row g-2 mb-3">
+          <div class="col-6"><label class="form-label">Difficulty</label><select id="genDifficulty" class="form-select"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></div>
+          <div class="col-6"><label class="form-label">Count</label><input id="genCount" type="number" class="form-control" min="1" max="25" value="5"></div>
+        </div>
+        <div class="mb-3"><label class="form-label">Question Type</label><select id="genType" class="form-select"><option value="mcq">MCQ</option><option value="true_false">True/False</option><option value="multi_select">Multiple Select</option></select></div>
+        <button id="generateBtn" type="submit" class="btn btn-qm-primary w-100"><i class="bi bi-stars"></i> Generate Questions</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <div class="qm-panel">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="qm-panel-title mb-0">Preview</h5>
+        <button id="saveQuestionsBtn" class="btn btn-qm-primary btn-sm-pill d-none" data-save-url="{{ url_for('admin.save_generated_questions') }}"><i class="bi bi-check-circle"></i> Save to Question Bank</button>
+      </div>
+      <div id="generatedQuestionsWrap"><p class="small text-soft mb-0">Generated questions will appear here for review before saving.</p></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

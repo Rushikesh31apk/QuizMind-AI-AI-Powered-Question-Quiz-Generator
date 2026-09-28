@@ -1,0 +1,9 @@
+{% extends "admin/_layout.html" %}
+{% block title %}Settings{% endblock %}
+{% block page_heading %}Settings{% endblock %}
+{% block content %}
+<div class="qm-panel mb-3"><h5 class="qm-panel-title">AI Provider</h5>
+<p class="small mb-1">Configured through <code>.env</code> (never stored in the database):</p>
+<p class="small mb-0">Provider: <span class="qm-pill">{{ config.AI_PROVIDER }}</span> &nbsp; API key: <span class="qm-pill">{{ 'configured' if config.AI_API_KEY else 'not set' }}</span></p></div>
+<div class="qm-panel"><h5 class="qm-panel-title">Account</h5><p class="small">Update your profile and password.</p><a href="{{ url_for('auth.profile') }}" class="btn btn-qm-outline">Edit Profile</a></div>
+{% endblock %}

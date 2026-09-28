@@ -1,0 +1,19 @@
+{% extends "student/_layout.html" %}
+{% block title %}Leaderboard{% endblock %}
+{% block content %}
+<h3 class="mb-1">Leaderboard</h3>
+<p class="mb-4">Top students by average quiz score.</p>
+{% if rows %}
+<div class="qm-panel">
+  {% for r in rows %}
+  <div class="d-flex align-items-center gap-3 py-2 {{ 'border-top' if not loop.first }}" style="border-color:var(--qm-border)!important">
+    <div class="leader-rank {{ 'gold' if loop.index == 1 else 'silver' if loop.index == 2 else 'bronze' if loop.index == 3 }}">{{ loop.index }}</div>
+    <div class="flex-grow-1"><div class="fw-bold">{{ r.full_name }}{% if r.id == current_user.id %} <span class="qm-pill" style="padding:.1rem .5rem">You</span>{% endif %}</div><div class="small text-soft">{{ r.attempts }} quiz{{ 'zes' if r.attempts != 1 }}</div></div>
+    <div class="fw-bold">{{ r.avg_score|round(1) }}%</div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="qm-panel qm-empty-state"><div class="icon-wrap"><i class="bi bi-trophy"></i></div><h5>No rankings yet</h5><p>Complete a quiz to appear on the leaderboard.</p><a href="{{ url_for('quiz.start') }}" class="btn btn-qm-primary">Take a Quiz</a></div>
+{% endif %}
+{% endblock %}

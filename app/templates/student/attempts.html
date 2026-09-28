@@ -1,0 +1,25 @@
+{% extends "student/_layout.html" %}
+{% block title %}My Attempts{% endblock %}
+{% block content %}
+<h3 class="mb-1">My Attempts</h3>
+<p class="mb-4">Every quiz you've completed.</p>
+{% if attempts %}
+<div class="qm-panel"><div class="qm-table-wrap"><table class="table qm-table mb-0">
+  <thead><tr><th>Quiz</th><th>Difficulty</th><th>Score</th><th>Result</th><th>Time</th><th>Date</th><th></th></tr></thead>
+  <tbody>
+  {% for a in attempts %}
+  <tr>
+    <td>{{ a.quiz.title }}</td>
+    <td><span class="qm-badge qm-badge-{{ (a.quiz.difficulty or 'medium')|lower }}">{{ a.quiz.difficulty }}</span></td>
+    <td><strong>{{ a.score }}/{{ a.total_questions }}</strong> ({{ a.percentage|round|int }}%)</td>
+    <td>{{ a.performance_label() }}</td>
+    <td>{{ (a.time_taken_seconds // 60) }}m {{ a.time_taken_seconds % 60 }}s</td>
+    <td>{{ a.submitted_at.strftime('%d %b %Y') }}</td>
+    <td class="text-nowrap"><a class="btn btn-qm-outline btn-sm-pill" href="{{ url_for('quiz.result', attempt_id=a.id) }}">Review</a> <a class="btn btn-qm-ghost btn-sm-pill" href="{{ url_for('quiz.retry', quiz_id=a.quiz_id) }}">Retry</a></td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div></div>
+{% else %}
+<div class="qm-panel qm-empty-state"><div class="icon-wrap"><i class="bi bi-clock-history"></i></div><h5>No quizzes yet</h5><p>Start your first quiz and see your performance here.</p><a href="{{ url_for('quiz.start') }}" class="btn btn-qm-primary">Take Your First Quiz</a></div>
+{% endif %}
+{% endblock %}

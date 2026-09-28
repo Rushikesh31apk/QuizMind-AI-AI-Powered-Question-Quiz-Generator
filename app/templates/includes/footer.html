@@ -1,0 +1,31 @@
+<footer class="qm-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <a href="{{ url_for('main.index') }}" class="qm-logo mb-2 d-inline-flex">
+          <span class="spark"><i class="bi bi-stars"></i></span> QuizMind AI
+        </a>
+        <p class="mt-2">Learn Smarter. Practice Better. Score Higher.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Product</h6>
+        <a href="{{ url_for('main.index') }}#features">Features</a>
+        <a href="{{ url_for('main.index') }}#ai-quiz">AI Quiz</a>
+        <a href="{{ url_for('main.index') }}#subjects">Subjects</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Company</h6>
+        <a href="{{ url_for('main.index') }}#about">About</a>
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="col-lg-4">
+        <h6>Get Started</h6>
+        <p class="mb-2">Create your free account and start practicing with AI-generated questions today.</p>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-qm-primary btn-sm-pill">Start Practicing</a>
+      </div>
+    </div>
+    <hr class="qm-divider my-4">
+    <p class="text-center small mb-0">&copy; {{ current_year }} QuizMind AI. All rights reserved.</p>
+  </div>
+</footer>

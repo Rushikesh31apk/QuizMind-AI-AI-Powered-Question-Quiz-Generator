@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block body_class %}dashboard-body{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% macro nav_links() %}
+  <a href="{{ url_for('admin.dashboard') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.dashboard' }}"><i class="bi bi-grid"></i> Dashboard</a>
+  <div class="qm-sidebar-section-label">Syllabus</div>
+  <a href="{{ url_for('admin.syllabus_analyzer') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.syllabus_analyzer' }}"><i class="bi bi-file-earmark-text"></i> Syllabus Analyzer</a>
+  <a href="{{ url_for('admin.academic_years') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.academic_years' }}"><i class="bi bi-mortarboard"></i> Academic Years</a>
+  <a href="{{ url_for('admin.semesters') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.semesters' }}"><i class="bi bi-calendar3"></i> Semesters</a>
+  <a href="{{ url_for('admin.subjects') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.subjects' }}"><i class="bi bi-book"></i> Subjects</a>
+  <a href="{{ url_for('admin.chapters') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.chapters' }}"><i class="bi bi-journal-text"></i> Chapters</a>
+  <a href="{{ url_for('admin.topics') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.topics' }}"><i class="bi bi-bookmark"></i> Topics</a>
+  <div class="qm-sidebar-section-label">Questions</div>
+  <a href="{{ url_for('admin.question_generator') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.question_generator' }}"><i class="bi bi-stars"></i> AI Question Generator</a>
+  <a href="{{ url_for('admin.questions') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.questions' }}"><i class="bi bi-collection"></i> Question Bank</a>
+  <div class="qm-sidebar-section-label">People &amp; Insights</div>
+  <a href="{{ url_for('admin.students') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.students' }}"><i class="bi bi-people"></i> Students</a>
+  <a href="{{ url_for('admin.attempts') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.attempts' }}"><i class="bi bi-clock-history"></i> Quiz Attempts</a>
+  <a href="{{ url_for('admin.analytics') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.analytics' }}"><i class="bi bi-bar-chart"></i> Analytics</a>
+  <a href="{{ url_for('admin.settings') }}" class="qm-sidebar-link {{ 'active' if request.endpoint == 'admin.settings' }}"><i class="bi bi-gear"></i> Settings</a>
+  <a href="{{ url_for('auth.logout') }}" class="qm-sidebar-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+{% endmacro %}
+
+{% block body %}
+<div class="qm-shell">
+  <aside class="qm-sidebar d-none d-lg-block">
+    <a href="{{ url_for('main.index') }}" class="qm-logo"><span class="spark"><i class="bi bi-stars"></i></span> QuizMind <small class="qm-pill ms-1" style="padding:.1rem .5rem">Admin</small></a>
+    {{ nav_links() }}
+  </aside>
+
+  <div class="offcanvas offcanvas-start" id="mobileSidebar">
+    <div class="offcanvas-header">
+      <span class="qm-logo"><span class="spark"><i class="bi bi-stars"></i></span> QuizMind Admin</span>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <div class="qm-sidebar" style="height:auto; position:static;">{{ nav_links() }}</div>
+    </div>
+  </div>
+
+  <main class="qm-main">
+    <div class="qm-topbar">
+      <button class="btn btn-qm-ghost btn-sm-pill d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+      <div class="fw-bold">{% block page_heading %}Admin{% endblock %}</div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="avatar-circle" style="width:34px;height:34px;font-size:0.8rem;">{{ current_user.full_name[0]|upper }}</span>
+        <span class="d-none d-md-inline small fw-semibold">{{ current_user.full_name }}</span>
+      </div>
+    </div>
+    <div class="qm-content">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}
