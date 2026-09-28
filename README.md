@@ -55,25 +55,25 @@ QuizMind AI lets an administrator or teacher build the syllabus (**Year → Seme
 
 Mint-green hero with the floating AI quiz mockup, CTAs and feature pills.
 
-<p align="center"><img src="docs/screenshots/01-landing-hero.jpg" alt="Landing page — hero" width="900"></p>
+<p align="center"><img src="01-landing-hero.jpg" alt="Landing page — hero" width="900"></p>
 
 **2. Landing page — full page**
 
 Features, how it works, academic years, AI generation, quiz and analytics previews, FAQ, CTA and footer.
 
-<p align="center"><img src="docs/screenshots/02-landing-full-page.jpg" alt="Landing page — full page" width="900"></p>
+<p align="center"><img src="02-landing-full-page.jpg" alt="Landing page — full page" width="900"></p>
 
 **3. Login**
 
 Email + password login with "Remember me" and demo credentials.
 
-<p align="center"><img src="docs/screenshots/03-login.jpg" alt="Login" width="900"></p>
+<p align="center"><img src="03-login.jpg" alt="Login" width="900"></p>
 
 **4. Student registration**
 
 Name, email, password, academic year and optional college.
 
-<p align="center"><img src="docs/screenshots/04-register.jpg" alt="Student registration" width="900"></p>
+<p align="center"><img src="04-register.jpg" alt="Student registration" width="900"></p>
 
 ### Student panel
 
@@ -81,67 +81,67 @@ Name, email, password, academic year and optional college.
 
 Greeting, stat cards, recent attempts, continue practicing, recommendations and weak topics.
 
-<p align="center"><img src="docs/screenshots/05-student-dashboard.jpg" alt="Student dashboard" width="900"></p>
+<p align="center"><img src="05-student-dashboard.jpg" alt="Student dashboard" width="900"></p>
 
 **6. Subjects**
 
 Browse the syllabus by year and semester; start a quiz for a subject or a single chapter.
 
-<p align="center"><img src="docs/screenshots/06-student-subjects.jpg" alt="Subjects" width="900"></p>
+<p align="center"><img src="06-student-subjects.jpg" alt="Subjects" width="900"></p>
 
 **7. Quiz setup**
 
 Cascading Year → Semester → Subject → Chapter → Topic, plus difficulty, question count and time limit.
 
-<p align="center"><img src="docs/screenshots/07-quiz-setup.jpg" alt="Quiz setup" width="900"></p>
+<p align="center"><img src="07-quiz-setup.jpg" alt="Quiz setup" width="900"></p>
 
 **8. Taking a quiz**
 
 Live timer, question navigator (answered / current / marked for review), bookmark button.
 
-<p align="center"><img src="docs/screenshots/08-quiz-taking.jpg" alt="Taking a quiz" width="900"></p>
+<p align="center"><img src="08-quiz-taking.jpg" alt="Taking a quiz" width="900"></p>
 
 **9. Submit confirmation**
 
 "Are you sure you want to submit?" with answered / unanswered counts.
 
-<p align="center"><img src="docs/screenshots/09-quiz-submit-confirm.jpg" alt="Submit confirmation" width="900"></p>
+<p align="center"><img src="09-quiz-submit-confirm.jpg" alt="Submit confirmation" width="900"></p>
 
 **10. Result page**
 
 Animated score ring, performance label, correct / wrong / unanswered, accuracy and time taken.
 
-<p align="center"><img src="docs/screenshots/10-quiz-result.jpg" alt="Result page" width="900"></p>
+<p align="center"><img src="10-quiz-result.jpg" alt="Result page" width="900"></p>
 
 **11. Question review**
 
 Every question with your answer, the correct answer and the explanation.
 
-<p align="center"><img src="docs/screenshots/11-quiz-result-review.jpg" alt="Question review" width="900"></p>
+<p align="center"><img src="11-quiz-result-review.jpg" alt="Question review" width="900"></p>
 
 **12. Question bank**
 
 Bookmarked questions with subject, chapter and difficulty filters.
 
-<p align="center"><img src="docs/screenshots/12-student-question-bank.jpg" alt="Question bank" width="900"></p>
+<p align="center"><img src="12-student-question-bank.jpg" alt="Question bank" width="900"></p>
 
 **13. Performance analytics**
 
 Score over time, subject / chapter / difficulty accuracy, correct vs incorrect, weak and strong areas.
 
-<p align="center"><img src="docs/screenshots/13-student-performance.jpg" alt="Performance analytics" width="900"></p>
+<p align="center"><img src="13-student-performance.jpg" alt="Performance analytics" width="900"></p>
 
 **14. My attempts**
 
 History of every completed quiz with review and retry.
 
-<p align="center"><img src="docs/screenshots/14-student-attempts.jpg" alt="My attempts" width="900"></p>
+<p align="center"><img src="14-student-attempts.jpg" alt="My attempts" width="900"></p>
 
 **15. Leaderboard**
 
 Top students ranked by average score.
 
-<p align="center"><img src="docs/screenshots/15-student-leaderboard.jpg" alt="Leaderboard" width="900"></p>
+<p align="center"><img src="15-student-leaderboard.jpg" alt="Leaderboard" width="900"></p>
 
 ### Admin panel
 
@@ -149,49 +149,49 @@ Top students ranked by average score.
 
 Totals for students, subjects, questions, quizzes and attempts, plus registration, attempt and score charts.
 
-<p align="center"><img src="docs/screenshots/16-admin-dashboard.jpg" alt="Admin dashboard" width="900"></p>
+<p align="center"><img src="16-admin-dashboard.jpg" alt="Admin dashboard" width="900"></p>
 
 **17. AI Syllabus Analyzer**
 
 Paste or upload a syllabus, preview the detected structure, then import it into the database.
 
-<p align="center"><img src="docs/screenshots/17-admin-syllabus-analyzer.jpg" alt="AI Syllabus Analyzer" width="900"></p>
+<p align="center"><img src="17-admin-syllabus-analyzer.jpg" alt="AI Syllabus Analyzer" width="900"></p>
 
 **18. Subject management**
 
 Searchable table with edit and delete; same pattern for years, semesters, chapters and topics.
 
-<p align="center"><img src="docs/screenshots/18-admin-subjects.jpg" alt="Subject management" width="900"></p>
+<p align="center"><img src="18-admin-subjects.jpg" alt="Subject management" width="900"></p>
 
 **19. Add / edit modal**
 
 Add and edit records in Bootstrap modals.
 
-<p align="center"><img src="docs/screenshots/19-admin-add-subject-modal.jpg" alt="Add / edit modal" width="900"></p>
+<p align="center"><img src="19-admin-add-subject-modal.jpg" alt="Add / edit modal" width="900"></p>
 
 **20. AI Question Generator**
 
 Pick subject, chapter, topic, difficulty, count and type; review the questions before saving.
 
-<p align="center"><img src="docs/screenshots/20-admin-question-generator.jpg" alt="AI Question Generator" width="900"></p>
+<p align="center"><img src="20-admin-question-generator.jpg" alt="AI Question Generator" width="900"></p>
 
 **21. Admin question bank**
 
 Search, filter, approve / reject, regenerate, edit and delete questions.
 
-<p align="center"><img src="docs/screenshots/21-admin-question-bank.jpg" alt="Admin question bank" width="900"></p>
+<p align="center"><img src="21-admin-question-bank.jpg" alt="Admin question bank" width="900"></p>
 
 **22. Students**
 
 Search students, activate / deactivate or remove accounts.
 
-<p align="center"><img src="docs/screenshots/22-admin-students.jpg" alt="Students" width="900"></p>
+<p align="center"><img src="22-admin-students.jpg" alt="Students" width="900"></p>
 
 **23. Analytics**
 
 Average score by subject and question difficulty distribution.
 
-<p align="center"><img src="docs/screenshots/23-admin-analytics.jpg" alt="Analytics" width="900"></p>
+<p align="center"><img src="23-admin-analytics.jpg" alt="Analytics" width="900"></p>
 
 ### Mobile
 
@@ -199,19 +199,19 @@ Average score by subject and question difficulty distribution.
 
 Responsive layout with a hamburger menu.
 
-<p align="center"><img src="docs/screenshots/24-mobile-landing.jpg" alt="Mobile — landing page" width="320"></p>
+<p align="center"><img src="24-mobile-landing.jpg" alt="Mobile — landing page" width="320"></p>
 
 **25. Mobile — dashboard**
 
 Cards stack into a single column.
 
-<p align="center"><img src="docs/screenshots/25-mobile-dashboard.jpg" alt="Mobile — dashboard" width="320"></p>
+<p align="center"><img src="25-mobile-dashboard.jpg" alt="Mobile — dashboard" width="320"></p>
 
 **26. Mobile — sidebar**
 
 The sidebar becomes an off-canvas drawer.
 
-<p align="center"><img src="docs/screenshots/26-mobile-sidebar.jpg" alt="Mobile — sidebar" width="320"></p>
+<p align="center"><img src="26-mobile-sidebar.jpg" alt="Mobile — sidebar" width="320"></p>
 
 ## 📂 Project Directory
 
